@@ -9,47 +9,27 @@
         </layout>
     </appender>
 
-    <logger name="kr.ed.haebeop.config">
+    <logger name="kr.co.haebeop.controller">
         <level value="info" />
     </logger>
 
-    <logger name="kr.ed.haebeop.controller">
+    <logger name="kr.co.haebeop.dao">
         <level value="info" />
     </logger>
 
-    <logger name="kr.ed.haebeop.domain">
+    <logger name="kr.co.haebeop.dto">
         <level value="info" />
     </logger>
 
-    <logger name="kr.ed.haebeop.exception">
+    <logger name="kr.co.haebeop.service">
         <level value="info" />
     </logger>
 
-    <logger name="kr.ed.haebeop.persistence">
+    <logger name="kr.co.haebeop.util">
         <level value="info" />
     </logger>
 
-    <logger name="kr.ed.haebeop.repository">
-        <level value="info" />
-    </logger>
-
-    <logger name="kr.ed.haebeop.service">
-        <level value="info" />
-    </logger>
-
-    <logger name="kr.ed.haebeop.util">
-        <level value="info" />
-    </logger>
-
-    <logger name="kr.ed.haebeop.test">
-        <level value="info" />
-    </logger>
-
-    <logger name="kr.ed.haebeop.web">
-        <level value="info" />
-    </logger>
-
-    <logger name="kr.ed.haebeop">
+    <logger name="kr.co.haebeop">
         <level value="info" />
     </logger>
 
@@ -71,3 +51,13 @@
         <appender-ref ref="console"/>
     </root>
 </log4j:configuration>
+        <!--
+            콘솔 창에 띄워 지는 내용의 레벨 : level
+            TRACE > DEBUG > INFO > WARN > ERROR > FATAL
+        -->
+        <!-- FATAL : 심각한 시스템 이상 내용 표시 -->
+        <!-- ERROR : 요청에 대한 문제 발생시 표시 -->
+        <!-- WARN : 처리는 가능하지만 경고성 메시지 발신 표시 -->
+        <!-- INFO : 정보성 메시지 표시 -->
+        <!-- DEBUG : 실행 내용에 대한 설명을 표시 -->
+        <!-- TRACE : 실행 내용이나 추적할 경로 등을 표시 -->

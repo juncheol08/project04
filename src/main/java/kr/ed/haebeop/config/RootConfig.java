@@ -1,5 +1,5 @@
 package kr.ed.haebeop.config;
-//applicationContext.xml을 대신하는 RootConfig.java
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -11,35 +11,42 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import javax.sql.DataSource;
-//applicationContext.xml을 대신하는 RootConfig.java : kr.ed.haebeop.config
+
+import java.util.Properties;
+
 @Configuration
-@ComponentScan(basePackages = {"kr.ed.haebeop.service" , "kr.ed.haebeop.repository"})
-@MapperScan( basePackages = {"kr.ed.haebeop.persistence"}) // MyBatis-Spring
+@ComponentScan(basePackages = {"kr.ed.haebeop.service", "kr.ed.haebeop.repository"})
+@MapperScan(basePackages = {"kr.ed.haebeop.persistence"})
 public class RootConfig {
     @Autowired
     private ApplicationContext applicationContext;
+
     @Bean
-    public SqlSessionTemplate sqlSession(SqlSessionFactory sqlSessionFactory) throws Exception {   //SqlSession 설정
-        return new SqlSessionTemplate(sqlSessionFactory);
+    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+        return new SqlSessionTemplate((SqlSessionFactory) sqlSessionFactoryBean());
     }
+
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception { //SqlFactory 설정
+    public SqlSessionFactory sqlSessionFactoryBean() throws  Exception { // sqlfactory 설정
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setConfigLocation(applicationContext.getResource("classpath:/mybatis-config.xml"));
         sqlSessionFactory.setMapperLocations(applicationContext.getResources("classpath*:/mappers/**/*Mapper.xml"));
         sqlSessionFactory.setDataSource(dataSource());
         return (SqlSessionFactory) sqlSessionFactory.getObject();
     }
+
     @Bean
-    public DataSourceTransactionManager transactionManager() {  //트랜잭션 설정
+    public DataSourceTransactionManager transactionManager() { // 트랜잭션 설정
         DataSourceTransactionManager transaction = new DataSourceTransactionManager();
         transaction.setDataSource(dataSource());
         return transaction;
     }
+
     @Bean
-    public BasicDataSource dataSource() {   //데이터베이스 설정
+    public BasicDataSource dataSource() { // 데이터 베이스 설정
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setDriverClassName("org.mariadb.jdbc.Driver");
         basicDataSource.setUrl("jdbc:mariadb://localhost:3306/haebeop");
@@ -47,13 +54,40 @@ public class RootConfig {
         basicDataSource.setPassword("1234");
         return basicDataSource;
     }
+    
     @Bean
-    public CommonsMultipartResolver multipartResolver() {   //멀티파트 파일 업로드 설정
+    public CommonsMultipartResolver multipartResolver() { // 멀티파트 파일 업로드 설정
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setMaxUploadSize(100000000);
         commonsMultipartResolver.setMaxInMemorySize(100000000);
         return commonsMultipartResolver;
     }
 
-    //HikariCP 를 활용하는 방안은 가장 밖에 있는 RootConfig2.java 파일을 참조할 것.
+    @Bean(name = "uploadPath")
+    public String uploadPath() { // 멀티파트 업로드 디렉토리 지정
+        return "D:\\01.personal_project\\pro04\\src\\main\\webapp\\resources\\upload";
+//        return "D:\\baik\\spring1\\pro31\\src\\main\\webapp\\resources\\upload";
+    }
+
+    // D:\01.personal_project\pro04\src\main\webapp\resources\\upload
+    @Bean
+    public JavaMailSender mailSender() { // 메일 api 설정
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.naver.com");
+        mailSender.setPort(465);
+        mailSender.setUsername("spospotv@naver.com");
+        mailSender.setPassword("a2217512");
+        mailSender.setDefaultEncoding("utf-8");
+
+        Properties javaMailProperties = new Properties();
+        javaMailProperties.put("mail.smtp.auth", "true");
+        javaMailProperties.put("mail.smtp.ssl.enable", "true");
+        javaMailProperties.put("mail.smtp.starttls.enable", "true");
+        javaMailProperties.put("mail.smtps.ssl.checkserveridentity", "true");
+        javaMailProperties.put("mail.smtps.ssl.trust", "*");
+        javaMailProperties.put("mail.debug", "true");
+        javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        mailSender.setJavaMailProperties(javaMailProperties);
+        return mailSender;
+    }
 }
