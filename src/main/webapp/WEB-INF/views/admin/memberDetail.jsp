@@ -104,6 +104,68 @@
                             </td>
                         </tr>
                         <tr>
+                            <th><label for="job" >직업 </label></th>
+                            <td>
+                                <div class="select is-info">
+                                    <select id="job" name="job">
+                                        <option value="1">일반 회원</option>
+                                        <option value="2">선생님</option>
+                                    </select>
+                                </div>
+                                <div class="select is-info" style="display: none" id="categorySelect">
+                                    <select id="category" name="category">
+                                        <option value="kor">국어</option>
+                                        <option value="eng">영어</option>
+                                        <option value="math">수학</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <script>
+
+                            <%--window.onload = function() {--%>
+                            <%--    var jobValue = "${member.job}";--%>
+
+                            <%--    var selectElement = document.getElementById("job");--%>
+
+                            <%--    for (var i = 0; i < selectElement.options.length; i++) {--%>
+                            <%--        if (selectElement.options[i].value == jobValue) {--%>
+                            <%--            selectElement.options[i].selected = true;--%>
+                            <%--            break;--%>
+                            <%--        }--%>
+                            <%--    }--%>
+                            <%--}--%>
+                            $(document).ready(function() {
+                                // 서버에서 전달받은 값을 변수에 저장
+                                var jobValue = "${member.job}";
+
+                                // 해당 value를 가진 option을 선택
+                                $("#job option[value='" + jobValue + "']").prop("selected", true);
+                            });
+                            function toggleCategory() {
+                                // "job" select 요소에서 선택된 값을 가져옴
+                                var jobValue = $("#job").val();
+
+                                // "job"의 value 값이 "2"인 경우
+                                if (jobValue == "2") {
+                                    // "categorySelect"를 나타냄.
+                                    $("#categorySelect").show();
+                                } else {
+                                    // 그렇지 않은 경우, "categorySelect"를 숨김.
+                                    $("#categorySelect").hide();
+                                }
+                            }
+                            $(document).ready(function() {
+                                // 페이지 로드 시에도 선택된 값에 따라 "categorySelect"의 표시 상태를 결정
+                                toggleCategory();
+
+                                // "job" select 요소의 값이 변경될 때마다 함수 실행
+                                $("#job").change(function() {
+                                    toggleCategory();
+                                });
+                            });
+                        </script>
+                        <tr>
                             <td colspan="2">
                                 <input type="submit" class="button btn-writer" value="회원정보수정">
                                 <input type="reset" class="button btn-primary" value="초기화">

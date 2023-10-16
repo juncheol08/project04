@@ -36,6 +36,8 @@ public class MemberController {
     @Autowired
     JavaMailSender mailSender;
 
+
+
     // spring security 이용
     private BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
 
@@ -110,9 +112,11 @@ public class MemberController {
     }
 
     //회원 가입 - 회원가입폼 페이지 로딩
-    @PostMapping("join.do")
+//    @PostMapping("join.do")
+    @GetMapping("join.do")
     public String getJoin(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
-        String job = request.getParameter("job");
+//        String job = request.getParameter("job");
+        String job = "1";
         model.addAttribute("job", job);
         return "/member/join";
     }
@@ -180,6 +184,21 @@ public class MemberController {
         String addr2 = request.getParameter("addr2");
         String postcode = request.getParameter("postcode");
         String birth = request.getParameter("birth");
+        int job = Integer.parseInt(request.getParameter("job"));
+
+        //해당 id의 기존 job값 가져오기
+        //기존 job값이 2이면 teacher테이블 update처리, 아니면 insert
+        Member chkmember = memberService.getMember(id);
+        int chkJob = chkmember.getJob();
+        System.out.println("chkJob : "+chkJob);
+
+        if (chkJob==2 && job==2) {
+            //update
+        } else if (chkJob==2 && job==1){
+            //delete
+        } else {
+            //insert
+        }
 
 
         Member member = new Member();
@@ -193,6 +212,7 @@ public class MemberController {
         member.setAddr2(addr2);
         member.setPostcode(postcode);
         member.setBirth(birth);
+        member.setJob(job);
 
         memberService.memberUpdate(member);
         model.addAttribute("member", member);
@@ -201,8 +221,12 @@ public class MemberController {
         PrintWriter out = response.getWriter();
         out.println("<script>alert('회원님의 정보가 수정되었습니다.');</script>");
         out.flush();
-
-        return "/member/myPage/memberUpdate";
+        String sid = (String) session.getAttribute("sid");
+        if (sid.equals("admin")){
+            return "/admin/memberList";
+        } else {
+            return "/member/myPage/memberUpdate";
+        }
     }
 
 /*    @RequestMapping(value = "update.do", method = RequestMethod.POST)

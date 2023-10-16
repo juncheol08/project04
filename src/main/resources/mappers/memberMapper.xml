@@ -113,7 +113,7 @@
     </select>
         <!--자료실-->
     <select id="getWriteList4"  resultType="BoardlistVO">
-        select bno as num, title as subject, resdate as write_date from free where author = #{id} order by resdate desc
+        select bno as num, title as subject, resdate as write_date from board where author = #{id} order by resdate desc
     </select>
     <!--<select id="getWriteList5" parameterType="String" resultType="BoardlistVO">
         select doc_no as num, doc_subject as subject, doc_date as write_date from community where doc_email = #{email} order by doc_date desc

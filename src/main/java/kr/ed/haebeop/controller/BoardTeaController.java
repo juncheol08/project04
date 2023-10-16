@@ -1,6 +1,7 @@
 package kr.ed.haebeop.controller;
 
 import kr.ed.haebeop.domain.Board;
+import kr.ed.haebeop.domain.Like;
 import kr.ed.haebeop.domain.Report;
 import kr.ed.haebeop.service.BoardTeaServiceImpl;
 import org.json.JSONObject;
@@ -48,6 +49,21 @@ public class BoardTeaController {
         int bno = Integer.parseInt(request.getParameter("bno"));
         Board dto = boardTeaService.boardDetail(bno);
         List<Board> comment = boardTeaService.commentList(bno);
+
+        String sid = (String) session.getAttribute("sid");
+        System.out.println("detail sid : "+sid);
+        Like like = new Like();
+        like.setUserId(sid);
+        like.setBoardNo(bno);
+        System.out.println(like.toString());
+        boolean isLiked = false;
+        int chk= boardTeaService.checkLiked(like);
+
+        if(chk==1){
+            isLiked = true;
+        }
+        model.addAttribute("isLiked",isLiked);
+
         model.addAttribute("dto", dto);
         model.addAttribute("comment", comment);
         System.out.println(comment.toString());
@@ -134,6 +150,33 @@ public class BoardTeaController {
             result = false;
         }
 
+
+        JSONObject json = new JSONObject();
+        json.put("result", result);
+        PrintWriter out = response.getWriter();
+        out.println(json.toString());
+        System.out.println(json.toString());
+
+    }
+    @PostMapping(value = "boardLike.do")
+    public void boardLike(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
+        String id = request.getParameter("sid");
+        int bno = Integer.parseInt(request.getParameter("boardNo"));
+        String result = "unliked";
+
+        Like like=new Like();
+        like.setUserId(id);
+        like.setBoardNo(bno);
+        int chk = boardTeaService.checkLiked(like);
+        if(chk==0) {
+            //추가
+            boardTeaService.addLike(like);
+            result = "liked";
+        } else if (chk==1){
+            //삭제
+            boardTeaService.removeLike(like);
+            result = "unliked";
+        }
 
         JSONObject json = new JSONObject();
         json.put("result", result);

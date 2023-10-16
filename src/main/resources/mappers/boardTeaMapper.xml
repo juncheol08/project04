@@ -67,4 +67,14 @@
         ORDER BY
             r.report_date DESC;
     </select>
+
+    <select id="checkLiked" resultType="integer">
+        SELECT count(*) FROM boardTealikes WHERE userid = #{userId} AND boardno = #{boardNo}
+    </select>
+    <delete id="removeLike">
+        delete from boardTealikes where userid = #{userId} and boardno = #{boardNo}
+    </delete>
+    <insert id="addLike">
+        insert into boardTealikes values (#{userId},#{boardNo},default)
+    </insert>
 </mapper>

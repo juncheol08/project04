@@ -143,8 +143,8 @@
         .inbtn, .delete_btn {
             display: inline-block;
             border-radius: 5px;
-            width: 50px;
-            line-height: 28px;
+            width: 88px;
+            line-height: 20px;
             text-align: center;
             font-size: 14px;
             cursor: pointer;
@@ -152,8 +152,9 @@
         }
 
         .inbtn {
-            background-color: #333;
+            background-color: #bbd4ff;
             color: #fff;
+            border: none;
         }
 
         .delete_btn {
@@ -162,7 +163,7 @@
         }
 
         .inbtn:hover, .delete_btn:hover {
-            background-color: #555;
+            /*background-color: #dedede;*/
         }
 
         .frm {
@@ -295,12 +296,12 @@
                             <td colspan="5"style="text-align: right" >
                                 <c:choose>
                                     <c:when test="${isLiked }">
-                                        <!-- 좋아요를 눌렀을 경우, 빨간색 하트 아이콘 -->
-                                        <button type="button is-info is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}">♥</button>
+                                        <!-- 좋아요를 눌렀을 경우 -->
+                                        <button type="button is-info is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}"><img src="${path1}/resources/img/like_blue.png" alt="!" style="height: 26px; margin-top: 6px "></button>
                                     </c:when>
                                     <c:otherwise>
-                                        <!-- 좋아요를 누르지 않았을 경우, 빈 하트 아이콘 -->
-                                        <button type="button is-danger is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}">♡</button>
+                                        <!-- 좋아요를 누르지 않았을 경우 -->
+                                        <button type="button is-danger is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}"><img src="${path1}/resources/img/like_white.png" alt="!" style="height: 26px; margin-top: 6px"></button>
                                     </c:otherwise>
                                 </c:choose>
                                 <button class="button is-danger is-hovered" onclick="openReportPopup()">
@@ -325,19 +326,18 @@
                                     var chk = result.result;
 
                                     if (chk === "liked") {
-                                        // likeButton.css("color","#ff5050");
-                                        likeButton.text("♥");
+                                        likeButton.html("<img src='${path1}/resources/img/like_blue.png' alt='!' style='height: 26px; margin-top: 6px'/>");
                                     } else if (chk === "unliked") {
-                                        likeButton.text("♡");
+                                        likeButton.html("<img src='${path1}/resources/img/like_white.png' alt='!' style='height: 26px; margin-top: 6px'/>");
                                     } else {
-                                        // likeButton.css("color","#b4b4b4");                                                } else {
+                                        // likeButton.css("color","#b4b4b4");
                                         alert("오류가 발생했습니다. 다시 시도해주세요.");
                                     }
                                 }
                             });
                         }
                         $(document).ready(function() {
-                            // 좋아요 상태를 기반으로 버튼 색 변경
+                            // 좋아요 상태를 기반으로 버튼 이미지 변경
                             $(".inbtn").each(function() {
                                 var isLiked = $(this).hasClass("liked");
                                 if (isLiked) {

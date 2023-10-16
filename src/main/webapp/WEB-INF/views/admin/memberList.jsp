@@ -69,7 +69,7 @@
                     <td>${status.count}</td>
                     <td><a href="${path}/admin/memberDetail.do?id=${member.id}">${member.id}</a></td>
                     <td>${member.name}</td>
-                    <td>${member.job == 1 ? '학부모' : (member.job == 2 ? '교사' : '-')}</td>
+                    <td>${member.job == 1 ? '일반회원' : (member.job == 2 ? '선생님' : '-')}</td>
                     <td>
                         <fmt:parseDate value="${member.regdate}" var="resdate" pattern="yyyy-MM-dd HH:mm:ss" />
                         <fmt:formatDate value="${resdate}" pattern="yyyy-MM-dd" />

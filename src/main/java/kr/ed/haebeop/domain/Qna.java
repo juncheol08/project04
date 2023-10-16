@@ -17,4 +17,6 @@ public class Qna {
     private int lev;
     private int par;
     private String pw;
+    //teacherqna
+    private String teacherid;
 }

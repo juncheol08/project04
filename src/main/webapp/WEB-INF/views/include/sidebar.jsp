@@ -6,7 +6,7 @@
 
 <nav style="margin-right: 0">
     <div class="sidebar">
-        <div class="header">티스푼</div>
+        <div class="header" style="text-align: center">마이 페이지</div>
         <ul>
             <li>
                 <a href="${path4}/member/update.do?id=${sid }" >
@@ -16,6 +16,11 @@
             <li>
                 <a href="${path4}/member/writtenList.do" >
                     작성글
+                </a>
+            </li>
+            <li>
+                <a href="${path4}/member/myLikeList.do">
+                    추천한 게시글
                 </a>
             </li>
             <li>

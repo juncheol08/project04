@@ -9,4 +9,5 @@ public class Notice {
     private String content;
     private String resdate;
     private int cnt;
+
 }

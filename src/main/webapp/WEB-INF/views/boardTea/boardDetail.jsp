@@ -141,8 +141,8 @@
         .inbtn, .delete_btn {
             display: inline-block;
             border-radius: 5px;
-            width: 50px;
-            line-height: 28px;
+            width: 88px;
+            line-height: 20px;
             text-align: center;
             font-size: 14px;
             cursor: pointer;
@@ -150,8 +150,9 @@
         }
 
         .inbtn {
-            background-color: #333;
+            background-color: #bbd4ff;
             color: #fff;
+            border: none;
         }
 
         .delete_btn {
@@ -160,7 +161,7 @@
         }
 
         .inbtn:hover, .delete_btn:hover {
-            background-color: #555;
+            /*background-color: #dedede;*/
         }
 
         .frm {
@@ -291,12 +292,57 @@
                     <c:if test="${not empty sid}">
                         <tr >
                             <td colspan="5"style="text-align: right" >
+                                <c:choose>
+                                    <c:when test="${isLiked }">
+                                        <!-- 좋아요를 눌렀을 경우 -->
+                                        <button type="button is-info is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}"><img src="${path1}/resources/img/like_blue.png" alt="!" style="height: 26px; margin-top: 6px "></button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- 좋아요를 누르지 않았을 경우 -->
+                                        <button type="button is-danger is-hovered" onclick="toggleLike(${dto.bno}, '${sid}');" class="inbtn" data-board-id="${dto.bno}"><img src="${path1}/resources/img/like_white.png" alt="!" style="height: 26px; margin-top: 6px"></button>
+                                    </c:otherwise>
+                                </c:choose>
                                 <button class="button is-danger is-hovered" onclick="openReportPopup()">
                                     <img src="${path1}/resources/img/report.png" alt="!" style="height: 20px; margin-right: 6px">신고</button></td>
                         </tr>
                     </c:if>
                     </tbody>
+                    <script>
+                        function toggleLike(boardNo, ${sid }) {
+                            $.ajax({
+                                url: "${path1}/board/boardLike.do",
+                                method: "POST",
+                                data: {
+                                    boardNo: boardNo,
+                                    sid: ${sid }
+                                },
+                                dataType: "json",
+                                success: function(result) {
+                                    var likeButton = $("[data-board-id='" + boardNo + "']");
+                                    console.log(result.result);
+                                    var chk = result.result;
 
+                                    if (chk === "liked") {
+                                        likeButton.html("<img src='${path1}/resources/img/like_blue.png' alt='!' style='height: 26px; margin-top: 6px'/>");
+                                    } else if (chk === "unliked") {
+                                        likeButton.html("<img src='${path1}/resources/img/like_white.png' alt='!' style='height: 26px; margin-top: 6px'/>");
+                                    } else {
+                                        // likeButton.css("color","#b4b4b4");
+                                        alert("오류가 발생했습니다. 다시 시도해주세요.");
+                                    }
+                                }
+                            });
+                        }
+                        $(document).ready(function() {
+                            // 좋아요 상태를 기반으로 버튼 이미지 변경
+                            $(".inbtn").each(function() {
+                                var isLiked = $(this).hasClass("liked");
+                                if (isLiked) {
+                                    $(this).addClass("liked");
+                                }
+                            });
+                        });
+                    </script>
                 </table>
                 <table class="tb2" id="myTable">
                     <thead>

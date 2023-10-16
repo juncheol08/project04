@@ -50,7 +50,6 @@ public class BoardController {
         System.out.println(like.toString());
         boolean isLiked = false;
         int chk= boardService.checkLiked(like);
-        System.out.println("detail.do / chk : "+chk);
         if(chk==1){
             isLiked = true;
         }
@@ -184,17 +183,14 @@ public class BoardController {
         like.setUserId(id);
         like.setBoardNo(bno);
         int chk = boardService.checkLiked(like);
-        System.out.println("chk1 : "+chk);
         if(chk==0) {
             //추가
             boardService.addLike(like);
             result = "liked";
-            System.out.println("chk3 : "+chk);
         } else if (chk==1){
             //삭제
             boardService.removeLike(like);
             result = "unliked";
-            System.out.println("chk2 : "+chk);
         }
 
         JSONObject json = new JSONObject();

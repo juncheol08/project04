@@ -52,7 +52,7 @@
 					  <th>글 제목</th>
 					  <td>${fileboard.fileBoard.title}</td>
 				  </tr>
-				  <tr>
+				  <tr style="height: 300px">
 					  <th>글 내용</th>
 					  <td>${fileboard.fileBoard.content}</td>
 				  </tr>

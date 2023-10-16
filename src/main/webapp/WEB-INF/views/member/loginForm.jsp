@@ -75,7 +75,7 @@
 <section class="hero is-fullheight">
     <div class="hero-body has-text-centered">
         <div class="login box is-rounded">
-            <img src="${path}/resources/img/logo_noBackground_blue.png" alt="logo" width="220">
+            <img src="${path}/resources/img/haebeop_logo.png" alt="logo" width="220">
             <form action="${path }/member/signin.do" method="post" name="loginForm">
                 <div class="field">
                     <div class="control">
