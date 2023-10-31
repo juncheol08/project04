@@ -1,12 +1,3 @@
--- pro04
-
--- 핵심기능 : 공지사항, 자료실, 회원, 자유게시판, 강의별 댓글, 교재와 시범강의
-
--- 부가기능 : 파일업로드, 채팅 및 쪽지, 타계정 또는 SNS로 로그인, 수강평, 달력
--- 가입시 축하 메일 보내기, 비밀번호 변경시 이메일 보내기
--- 온라인 평가, 진도 관리 등
-
-
 CREATE DATABASE haebeop;
 
 USE haebeop
@@ -32,15 +23,12 @@ CREATE TABLE member(
 );
 -- ALTER TABLE member add COLUMN job INT;
 
--- 로그인 타입 1: 일반 2: 카카오 3: 네이버
--- ALTER TABLE member ADD login_tp_cd INT DEFAULT 1;
--- 상태코드 1: 정상 2: 신고정지 3: 탈퇴 4: 휴면
--- ALTER TABLE member ADD state_cd INT DEFAULT 1;
+
 
 -- 관리자
 INSERT INTO member VALUES(
 'admin', '1234', '관리자', 'admin@edu.com', '010-1234-5678', 
-	'경기 성남시 분당구 대왕판교로 477', '102호', '13480', DEFAULT, '1980-04-22',
+	'경기 성남시 분당구 대왕판교로 477', '102호', '13480', DEFAULT, '1998-04-22',
 	DEFAULT, DEFAULT, DEFAULT, DEFAULT, 0);
 
 -- 일반 회원
@@ -77,24 +65,21 @@ CREATE TABLE board(
 
 INSERT INTO board(title, content, author) VALUES('본문 제목1', '본문 내용1', 'admin');
 UPDATE board SET par=bno WHERE bno=1;
+
 INSERT INTO board(title, content, author) VALUES('본문 제목2', '본문 내용2', 'hong'); 
 UPDATE board SET par=bno WHERE bno=2;
+
 INSERT INTO board(title, content, author) VALUES('본문 제목3', '본문 내용3', 'kang');
 UPDATE board SET par=bno WHERE bno=3;
+
 INSERT INTO board(title, content, author) VALUES('본문 제목4', '본문 내용4', 'lee');
 UPDATE board SET par=bno WHERE bno=4;
+
 INSERT INTO board(title, content, author) VALUES('본문 제목5', '본문 내용5', 'son');
 UPDATE board SET par=bno WHERE bno=5;
+
 INSERT INTO board(title, content, author) VALUES('본문 제목6', '본문 내용6', 'hong');
 UPDATE board SET par=bno WHERE bno=6; 
-INSERT INTO board(title, content, author) VALUES('본문 제목7', '본문 내용7', 'hong');
-UPDATE board SET par=bno WHERE bno=7; 
-INSERT INTO board(title, content, author) VALUES('본문 제목8', '본문 내용8', 'hong');
-UPDATE board SET par=bno WHERE bno=8; 
-INSERT INTO board(title, content, author) VALUES('본문 제목9', '본문 내용9', 'hong');
-UPDATE board SET par=bno WHERE bno=9; 
-INSERT INTO board(title, content, author) VALUES('본문 제목10', '본문 내용10', 'hong');
-UPDATE board SET par=bno WHERE bno=10; 
 
 INSERT INTO board(title, content, author, lev, par) VALUES('댓글', '댓글내용', 'admin', 1, 7);
 INSERT INTO board(title, content, author, lev, par) VALUES('댓글', '댓글내용', 'admin', 1, 7);
@@ -148,44 +133,6 @@ INSERT INTO faq(question, answer) VALUES('자주 묻는 질문9', '자주 묻는
 INSERT INTO faq(question, answer) VALUES('자주 묻는 질문10', '자주 묻는 질문10 더미글입니다.');
 
 
--- 대외활동 정보
-CREATE TABLE info_act(
-	bno INT PRIMARY KEY AUTO_INCREMENT, -- qna 글 번호
-	title VARCHAR(200) NOT NULL, -- 제목
-	content VARCHAR(2000), -- 내용
-	author VARCHAR(16), -- 작성자
-	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 작성일
-	cnt INT DEFAULT 0, -- 조회수
-	rec INT DEFAULT 0,
-	FOREIGN KEY(author) REFERENCES member(id) ON DELETE 		
-		CASCADE -- 작성자를 member id를 이용해 외래키로 사용
-);
-
--- 학습 정보
-CREATE TABLE info_stu(
-	bno INT PRIMARY KEY AUTO_INCREMENT, -- qna 글 번호
-	title VARCHAR(200) NOT NULL, -- 제목
-	content VARCHAR(2000), -- 내용
-	author VARCHAR(16), -- 작성자
-	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 작성일
-	cnt INT DEFAULT 0, -- 조회수
-	rec INT DEFAULT 0,
-	FOREIGN KEY(author) REFERENCES member(id) ON DELETE 		
-		CASCADE -- 작성자를 member id를 이용해 외래키로 사용
-);
-
--- 대학 정보
-CREATE TABLE info_uni(
-	bno INT PRIMARY KEY AUTO_INCREMENT, -- qna 글 번호
-	title VARCHAR(200) NOT NULL, -- 제목
-	content VARCHAR(2000), -- 내용
-	author VARCHAR(16), -- 작성자
-	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 작성일
-	cnt INT DEFAULT 0, -- 조회수
-	rec INT DEFAULT 0,
-	FOREIGN KEY(author) REFERENCES member(id) ON DELETE CASCADE -- 작성자를 member id를 이용해 외래키로 사용
-);
-
 -- qna
 CREATE TABLE qna(
 	bno INT PRIMARY KEY AUTO_INCREMENT, -- qna 글 번호
@@ -199,6 +146,14 @@ CREATE TABLE qna(
 	pw VARCHAR(330), -- 비밀글, 비밀번호
 	FOREIGN KEY(author) REFERENCES member(id) ON DELETE 		
 		CASCADE -- 작성자를 member id를 이용해 외래키로 사용
+);
+
+-- 학교 정보
+CREATE TABLE school(
+	eo_code VARCHAR(10), -- 교육청 코드
+	eo_name VARCHAR(100), -- 교육청 이름
+	sc_code VARCHAR(50), -- 학교 코드
+	sc_name VARCHAR(100) -- 학교 이름
 );
 
 -- 자료실 db
@@ -220,34 +175,6 @@ CREATE TABLE fileboard (
 	visited INT DEFAULT 0   -- 조회수
 );
 
--- 성적 게시판
--- DROP TABLE grade;
-CREATE TABLE grade( 
-	no INTEGER auto_increment PRIMARY KEY,
-	stuname VARCHAR(150) NOT NULL ,
-	stuid VARCHAR(150) NOT null ,
-	kor INTEGER ,
-	math INTEGER,
-	eng INTEGER ,
-	social INTEGER ,
-	science INTEGER ,
-	exam VARCHAR(80),
-	tname VARCHAR(150),
-	tid VARCHAR(150),
-	regdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-						
--- stuname : 학생 이름, stuid: 학생 아이디, exam : 시험 유형(?), tname: 선생님 성함, stuid: 선생님 아이디 
-						  
-DROP TABLE grade;
-
--- grade 더미 데이터
-INSERT INTO grade VALUES(DEFAULT, '홍길동', 'hong', 90, 50, 50, 50, 50, '1학기 중간고사', '손흥민','son', DEFAULT);
-INSERT INTO grade VALUES(DEFAULT, '강감찬', 'kang', 90, 50, 50, 50, 50, '1학기 중간고사', '손흥민','son', DEFAULT);
-INSERT INTO grade VALUES(DEFAULT, '강감찬', 'kang', 90, 50, 50, 50, 50, '2학기 중간고사', '손흥민','son', DEFAULT);
-INSERT INTO grade VALUES(DEFAULT, '강감찬', 'kang', 90, 50, 50, 50, 50, '1학기 기말고사', '손흥민','son', DEFAULT);
-
-SELECT * FROM grade WHERE stuid='kang';
 
 -- 관리자 게시판 관리 테이블
 CREATE TABLE report (
@@ -258,6 +185,16 @@ CREATE TABLE report (
     report_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 신고일
     FOREIGN KEY(board_bno) REFERENCES board(bno) ON DELETE CASCADE,
     FOREIGN KEY(reporter) REFERENCES member(id) ON DELETE CASCADE
+);
+
+-- 공지사항(순번, 제목, 내용, 작성자, 작성일, 읽은 횟수)
+create table notice(
+	no int primary KEY AUTO_INCREMENT, -- notice 글 번호
+	title varchar(200) not NULL,	-- 제목
+	content varchar(1000), -- 내용
+	id VARCHAR(20), -- 작성자
+	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 작성일
+	cnt int DEFAULT 0 -- 조회수
 );
 
 -- 강사, 선생님 테이블
@@ -275,8 +212,8 @@ CREATE TABLE instructor(
 );
 
 -- instructor 선생님 테이블 컬럼 추가
---  ALTER TABLE instructor
--- ADD COLUMN id VARCHAR(50);
+-- ALTER TABLE instructor
+-- ADD COLUMN id VARCHAR(50),
 -- ADD FOREIGN KEY (id) REFERENCES member(id);
 
 INSERT INTO instructor VALUES(DEFAULT, '강감찬', '01011111111', 'kang@edu.com');
@@ -310,14 +247,6 @@ CREATE TABLE lecture(
 );
 -- UPDATE lecture SET endday = 100; 
 
--- 추천(좋아요) 기능 테이
-create table lecturelikes (
-    userid VARCHAR(20) NOT NULL,      -- 사용자 ID
-    lno INT NOT NULL,           -- 강의 no 
-    liketime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 좋아요를 누른 시간
-    PRIMARY KEY (userid, lno)   -- 사용자 ID와 게시글 no 조합으로 각 레코드를 유일하게 식별
-);
-
 -- 강의 리뷰
 CREATE TABLE review(
     NO INT AUTO_INCREMENT PRIMARY KEY, -- 번호
@@ -347,6 +276,9 @@ CREATE TABLE lecfile (
 	realname VARCHAR(250) -- 실제 파일 이름
 )
 
+
+
+
 -- 장바구니 테이블
 CREATE TABLE cart(
 	cartno INT PRIMARY KEY AUTO_INCREMENT, -- 장바구니 번호
@@ -357,6 +289,7 @@ CREATE TABLE cart(
 	)
 
 -- 결제 내역(수강 신청, 강의 구매 내역)
+	drop table payment 
 CREATE TABLE payment(
 	sno INT PRIMARY KEY AUTO_INCREMENT, -- (수강신청, 결제 내역 번호)
 	id VARCHAR(20), -- 구매자 id(FK)
@@ -394,48 +327,6 @@ CREATE TABLE course(
 	FOREIGN KEY(lec_no) REFERENCES lecture(no), 
 	FOREIGN KEY(sid) REFERENCES member(id)
 	);
-
--- myclass 뷰테이블 추가 (나의 학습방 데이터) 
--- myclass 뷰 생성
-DROP VIEW myclass; 
-CREATE VIEW myclass AS
-SELECT DISTINCT
-    p.id AS id, 
-    p.lec_no AS lec_no, 
-    l.cate AS lecCate, 
-	ins.name as insname,
-	l.slevel AS slevel,
-    l.title AS lecTitle, 
-	l.content AS lecContent,
-    p.buydate AS lecStudystart, 
-    p.enddate AS lecStudyend,  
-    c.CHECK1 AS ck
-FROM 
-    course c
-JOIN 
-    lecture l ON c.lec_no = l.NO     
-JOIN 
-    instructor ins ON l.ino = ins.NO
-LEFT JOIN
-    payment p ON p.lec_no = l.NO
-WHERE p.id IS NOT NULL AND p.buydate IS NOT NULL AND p.enddate IS NOT NULL;
-
-create table calendar(
-	no INTEGER AUTO_INCREMENT PRIMARY KEY,
-	id VARCHAR(100) NOT null,
-	groupId integer,
-	title varchar(50) NOT null,
-	writer varchar(50),
-	content varchar(1000),
-	start date,
-	end date,
-	textColor varchar(50),
-	backgroundColor varchar(50),
-	borderColor varchar(50)
-);
-
--- 캘린더 더미 데이터
-INSERT INTO calendar(id, groupId, title, writer, content, START, END, textColor, backgroundColor, borderColor) VALUES ('kang', 1, 'hello', '강감찬', '더미내용', '2023-10-01', '2023-10-18', 'black', 'white', 'black');
 
 -- 강의 배정
 -- 과목, 강사, 교재 정보를 강의 테이블에 등록하는 행위
@@ -475,6 +366,11 @@ CREATE TABLE instructorqna(
 		CASCADE -- 작성자를 member id를 이용해 외래키로 사용
 );
 
+-- instructor 선생님 테이블 컬럼 추가
+ALTER TABLE instructor
+ADD COLUMN id VARCHAR(50),
+ADD FOREIGN KEY (id) REFERENCES member(id);
+
 -- 선생님 자료실 
 CREATE TABLE instructorfile(
 	NO INT PRIMARY KEY AUTO_INCREMENT, -- 
@@ -493,4 +389,11 @@ CREATE TABLE instfile (
 	NO INT PRIMARY KEY AUTO_INCREMENT, -- 번호
 	sfile VARCHAR(1000), -- 난수화된 파일 이름
 	realname VARCHAR(250) -- 실제 파일 이름
-)
+	
+
+create table lecturelikes (
+    userid VARCHAR(20) NOT NULL,      -- 사용자 ID
+    lno INT NOT NULL,           -- 강의 no 
+    liketime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 좋아요를 누른 시간
+    PRIMARY KEY (userid, lno)   -- 사용자 ID와 게시글 no 조합으로 각 레코드를 유일하게 식별
+);
