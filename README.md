@@ -38,6 +38,9 @@
 ​
 <br/>
 ​
-​
-​
-​
+
+### ERD
+<img src="./readme/erd_haebeop_my.png">
+
+### USECASE
+​<img src="./readme/usecasediagram.png">

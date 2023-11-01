@@ -187,15 +187,6 @@ CREATE TABLE report (
     FOREIGN KEY(reporter) REFERENCES member(id) ON DELETE CASCADE
 );
 
--- 공지사항(순번, 제목, 내용, 작성자, 작성일, 읽은 횟수)
-create table notice(
-	no int primary KEY AUTO_INCREMENT, -- notice 글 번호
-	title varchar(200) not NULL,	-- 제목
-	content varchar(1000), -- 내용
-	id VARCHAR(20), -- 작성자
-	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP(), -- 작성일
-	cnt int DEFAULT 0 -- 조회수
-);
 
 -- 강사, 선생님 테이블
 CREATE TABLE instructor(
@@ -389,7 +380,7 @@ CREATE TABLE instfile (
 	NO INT PRIMARY KEY AUTO_INCREMENT, -- 번호
 	sfile VARCHAR(1000), -- 난수화된 파일 이름
 	realname VARCHAR(250) -- 실제 파일 이름
-	
+);
 
 create table lecturelikes (
     userid VARCHAR(20) NOT NULL,      -- 사용자 ID

@@ -55,7 +55,7 @@ public class RootConfig {
 //        basicDataSource.setPassword("team14");
 
         // 개발 서버 db 연결
-        basicDataSource.setUrl("jdbc:mariadb://localhost:3306/haebeop");
+        basicDataSource.setUrl("jdbc:mariadb://localhost:3306/haebeop_my");
         basicDataSource.setUsername("root");
         basicDataSource.setPassword("1234");
         return basicDataSource;
