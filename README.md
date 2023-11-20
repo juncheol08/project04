@@ -44,3 +44,49 @@
 
 ### USECASE
 ​<img src="./readme/usecasediagram.png">
+
+
+
+### 구현
+- 메인화면
+  ![메인화면](./readme/메인화면.png)
+- 회원가입 
+<img src="./readme/회원가입.png">
+- 로그인
+<img src="./readme/로그인.png">
+- 로그인 전
+<img src="./readme/로그인전.png">
+- 로그인 후
+<img src="./readme/로그인후.png">
+- 상품구매
+<img src="./readme/상품구매.png">
+- 마이페이지
+<img src="./readme/마이페이지.png">
+- 내정보 수정
+<img src="./readme/내정보수정.png">
+- 마이페이지 결제목록
+<img src="./readme/마이페이지결제목록.png">
+- 마이페이지 결제목록
+<img src="./readme/마이페이지결제목록2.png">
+- 배송조회
+<img src="./readme/배송정보조회.png">
+- 상품 목록
+<img src="./readme/상품목록.png">
+- 상품 상세
+<img src="./readme/상품상세.png">
+- 상품 추가(관리자)
+<img src="./readme/상품추가.png">
+- 상품 정보 수정(관리자)
+<img src="./readme/상품정보수정.png">
+- 출고처리(관리자)
+<img src="./readme/관리자출고처리.png">
+- 배송상태변경(관리자)
+<img src="./readme/배송상태변경.png">
+- 공지 목록
+<img src="./readme/공지목록.png">
+- 공지 글 상세
+<img src="./readme/게시글상세.png">
+- 공지 작성(관리자)
+<img src="./readme/공지작성.png">
+- 공지 수정(관리자)
+<img src="./readme/공지수정.png">
